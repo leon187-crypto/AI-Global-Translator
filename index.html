@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Optimized mobile viewport preventing accidental displacement when keyboard opens -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
+  <title>Ai Global Translator Pro - Philippine, World & English Dialects</title>
+  
+  <!-- Mobile Web App & PWA Capabilities -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Ai Translator" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" id="metaThemeColor" />
+
+  <!-- Permissions Policy for Android Browsers and WebViews -->
+  <meta http-equiv="Permissions-Policy" content="microphone=(self), autoplay=(self)" />
+
+  <!-- Inline Web App Manifest for Direct Home Screen Installation -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"Ai Global Translator Pro","short_name":"Ai Translator","start_url":".","display":"standalone","background_color":"#ffffff","theme_color":"#2563eb","icons":[{"src":"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/language.svg","sizes":"192x192","type":"image/svg+xml"}]}' />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8'
+            }
+          },
+          screens: {
+            'xs': '380px'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    html, body {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      font-family: 'Inter', sans-serif;
+      overscroll-behavior-y: none;
+    }
+
+    /* Android & iOS 16px minimum to disable input auto-zoom */
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+
+    /* Native-like scrollbar management */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    textarea::-webkit-scrollbar {
+      width: 4px;
+    }
+    textarea::-webkit-scrollbar-thumb {
+      background-color: rgba(156, 163, 175, 0.4);
+      border-radius: 9999px;
+    }
+
+    @keyframes mic-pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { transform: scale(1.08); box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+    .mic-recording {
+      animation: mic-pulse 1.3s infinite ease-in-out;
+      background-color: #ef4444 !important;
+      color: #ffffff !important;
+      border-color: #ef4444 !important;
+    }
+
+    /* Safe Area Padding Utilities for Android Notches & Navigation Bars */
+    .pt-safe {
+      padding-top: max(env(safe-area-inset-top, 0px), 0.5rem);
+    }
+    .pb-safe {
+      padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.75rem);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-dvh transition-colors duration-200 flex flex-col justify-between font-sans antialiased selection:bg-blue-500 selection:text-white">
+
+  <!-- Mobile-Ready Safe Header -->
+  <header class="w-full bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700/80 sticky top-0 z-30 pt-safe transition-colors shadow-xs">
+    <div class="max-w-4xl mx-auto px-3.5 sm:px-4 py-2 sm:py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5 min-w-0">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 shrink-0">
+          <i class="fa-solid fa-language text-lg"></i>
+        </div>
+        <div class="min-w-0 flex-1">
+          <h1 class="font-bold text-base sm:text-lg leading-tight tracking-tight text-slate-900 dark:text-white truncate">Ai Global Translator</h1>
+          <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">Philippine Dialects & English Varieties</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-1.5 shrink-0">
+        <!-- Gemini AI Settings Button -->
+        <button id="geminiModalBtn" title="Gemini AI Settings" aria-label="Gemini Settings" class="h-11 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors flex items-center space-x-1.5 text-xs font-semibold active:scale-95 touch-manipulation">
+          <i class="fa-solid fa-wand-magic-sparkles text-purple-600 dark:text-purple-400"></i>
+          <span class="hidden xs:inline">Gemini AI</span>
+          <span id="geminiStatusDot" class="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+        </button>
+
+        <!-- Theme Toggle Button -->
+        <button id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle dark/light theme" class="w-11 h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors flex items-center justify-center active:scale-95 touch-manipulation">
+          <i id="themeIcon" class="fa-solid fa-moon text-base"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Security Warning Banner (for non-HTTPS environments on Android) -->
+  <div id="insecureWarning" class="hidden bg-amber-500 text-white text-xs px-4 py-2 text-center font-medium shadow-inner flex items-center justify-center gap-2">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span>Android restricts microphone access on insecure connections. Please open via <strong>HTTPS</strong> or <strong>localhost</strong>.</span>
+  </div>
+
+  <!-- Main Scrollable Workspace -->
+  <main class="max-w-4xl w-full mx-auto px-3 sm:px-4 py-3 sm:py-5 flex-grow flex flex-col gap-3 sm:gap-4 overflow-y-auto">
+
+    <!-- Quick Phrase Suggestions Chips -->
+    <section aria-label="Quick Phrases" class="w-full">
+      <div class="flex items-center justify-between mb-1.5 px-0.5">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Quick Dialect Presets</span>
+      </div>
+      <div id="quickPhrasesContainer" class="flex items-center gap-1.5 overflow-x-auto pb-1.5 pt-0.5 no-scrollbar -mx-3 px-3 sm:mx-0 sm:px-0 scroll-smooth"></div>
+    </section>
+
+    <!-- Language Selector Header Bar -->
+    <div class="bg-white dark:bg-slate-800 rounded-2xl p-1.5 sm:p-2 border border-slate-200/90 dark:border-slate-700/80 shadow-xs flex items-center justify-between gap-1 sm:gap-2">
+      
+      <!-- Source Language Selector -->
+      <div class="flex-1 min-w-0">
+        <label for="sourceLang" class="sr-only">Source Language</label>
+        <div class="relative">
+          <select id="sourceLang" class="w-full bg-slate-50 dark:bg-slate-700/60 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-600 rounded-xl pl-2.5 pr-6 py-2.5 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer truncate appearance-none touch-manipulation">
+            <option value="autodetect" selected>✨ Auto Detect</option>
+
+            <optgroup label="🌐 English Varieties & Dialects">
+              <option value="en-US">English (American)</option>
+              <option value="en-GB">English (British)</option>
+              <option value="en-PH">English (Philippine)</option>
+              <option value="en-AU">English (Australian)</option>
+              <option value="en-CA">English (Canadian)</option>
+              <option value="en-IN">English (Indian)</option>
+              <option value="en-SG">English (Singaporean / Singlish)</option>
+              <option value="en-IE">English (Irish)</option>
+              <option value="en-ZA">English (South African)</option>
+              <option value="en-NZ">English (New Zealand)</option>
+              <option value="en-JM">Jamaican Patois (Patwa)</option>
+              <option value="pcm">Nigerian Pidgin English</option>
+              <option value="en-shk">Shakespearean English</option>
+              <option value="en-biz">Corporate Executive English</option>
+              <option value="en-genz">Gen Z & Slang English</option>
+              <option value="ang">Old English (Anglo-Saxon)</option>
+            </optgroup>
+            
+            <optgroup label="🇵🇭 Major Philippine Languages">
+              <option value="ceb">Bisaya / Cebuano</option>
+              <option value="tl">Tagalog (Filipino)</option>
+              <option value="ilo">Ilocano (Ilokano)</option>
+              <option value="hil">Hiligaynon (Ilonggo)</option>
+              <option value="war">Waray (Waray-Waray)</option>
+              <option value="pam">Kapampangan</option>
+              <option value="pag">Pangasinan</option>
+              <option value="bcl">Bikol (Central Bicolano)</option>
+            </optgroup>
+
+            <optgroup label="🇵🇭 Visayas & Palawan Dialects">
+              <option value="krj">Kinaray-a (Panay)</option>
+              <option value="akl">Aklanon</option>
+              <option value="cps">Capiznon</option>
+              <option value="msb">Masbateño</option>
+              <option value="rol">Romblomanon</option>
+              <option value="cyo">Cuyonon</option>
+            </optgroup>
+
+            <optgroup label="🇵🇭 Mindanao & Sulu Dialects">
+              <option value="cbk">Chavacano (Zamboanga)</option>
+              <option value="tsg">Tausug (Bahasa Sūg)</option>
+              <option value="mrw">Maranao (Mëranaw)</option>
+              <option value="mdh">Maguindanaon</option>
+              <option value="sgd">Surigaonon</option>
+              <option value="yka">Yakan</option>
+            </optgroup>
+
+            <optgroup label="🇵🇭 Northern Luzon Dialects">
+              <option value="ibg">Ibanag</option>
+              <option value="ivv">Ivatan</option>
+              <option value="kne">Kankanaey</option>
+            </optgroup>
+
+            <optgroup label="🌍 Global Languages">
+              <option value="es">Spanish</option>
+              <option value="ja">Japanese</option>
+              <option value="zh-CN">Chinese (Simplified)</option>
+              <option value="ko">Korean</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+              <option value="ar">Arabic</option>
+              <option value="hi">Hindi</option>
+              <option value="it">Italian</option>
+              <option value="pt">Portuguese</option>
+              <option value="ru">Russian</option>
+              <option value="id">Indonesian</option>
+              <option value="ms">Malay</option>
+              <option value="vi">Vietnamese</option>
+              <option value="th">Thai</option>
+              <option value="nl">Dutch</option>
+              <option value="tr">Turkish</option>
+            </optgroup>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+            <i class="fa-solid fa-chevron-down text-[10px]"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Language Swap Button -->
+      <button id="swapBtn" title="Swap Languages" aria-label="Swap source and target languages" class="w-11 h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-700/60 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 transition-colors flex items-center justify-center shrink-0 active:scale-90 touch-manipulation">
+        <i class="fa-solid fa-arrow-right-arrow-left text-xs"></i>
+      </button>
+
+      <!-- Target Language Selector -->
+      <div class="flex-1 min-w-0">
+        <label for="targetLang" class="sr-only">Target Language</label>
+        <div class="relative">
+          <select id="targetLang" class="w-full bg-slate-50 dark:bg-slate-700/60 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-600 rounded-xl pl-2.5 pr-6 py-2.5 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer truncate appearance-none touch-manipulation">
+            <optgroup label="🌐 English Varieties & Dialects">
+              <option value="en-US">English (American)</option>
+              <option value="en-GB">English (British)</option>
+              <option value="en-PH">English (Philippine)</option>
+              <option value="en-AU" selected>English (Australian)</option>
+              <option value="en-CA">English (Canadian)</option>
+              <option value="en-IN">English (Indian)</option>
+              <option value="en-SG">English (Singaporean / Singlish)</option>
+              <option value="en-IE">English (Irish)</option>
+              <option value="en-ZA">English (South African)</option>
+              <option value="en-NZ">English (New Zealand)</option>
+              <option value="en-JM">Jamaican Patois (Patwa)</option>
+              <option value="pcm">Nigerian Pidgin English</option>
+              <option value="en-shk">Shakespearean English</option>
+              <option value="en-biz">Corporate Executive English</option>
+              <option value="en-genz">Gen Z & Slang English</option>
+              <option value="ang">Old English (Anglo-Saxon)</option>
+            </optgroup>
+
+            <optgroup label="🇵🇭 Major Philippine Languages">
+              <option value="ceb">Bisaya / Cebuano</option>
+              <option value="tl">Tagalog (Filipino)</option>
+              <option value="ilo">Ilocano (Ilokano)</option>
+              <option value="hil">Hiligaynon (Ilonggo)</option>
+              <option value="war">Waray (Waray-Waray)</option>
+              <option value="pam">Kapampangan</option>
+              <option value="pag">Pangasinan</option>
+              <option value="bcl">Bikol (Central Bicolano)</option>
+            </optgroup>
+
+            <optgroup label="🇵🇭 Visayas & Palawan Dialects">
+              <option value="krj">Kinaray-a (Panay)</option>
+              <option value="akl">Aklanon</option>
+              <option value="cps">Capiznon</option>
+              <option value="msb">Masbateño</option>
+              <option value="rol">Romblomanon</option>
+              <option value="cyo">Cuyonon</option>
+            </optgroup>
+
+            <optgroup label="🇵🇭 Mindanao & Sulu Dialects">
+              <option value="cbk">Chavacano (Zamboanga)</option>
+              <option value="tsg">Tausug (Bahasa Sūg)</option>
+              <option value="mrw">Maranao (Mëranaw)</option>
+              <option value="mdh">Maguindanaon</option>
+              <option value="sgd">Surigaonon</option>
+              <option value="yka">Yakan</option>
+            </optgroup>
+
+            <optgroup label="🇵🇭 Northern Luzon Dialects">
+              <option value="ibg">Ibanag</option>
+              <option value="ivv">Ivatan</option>
+              <option value="kne">Kankanaey</option>
+            </optgroup>
+
+            <optgroup label="🌍 Global Languages">
+              <option value="es">Spanish</option>
+              <option value="ja">Japanese</option>
+              <option value="zh-CN">Chinese (Simplified)</option>
+              <option value="ko">Korean</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+              <option value="ar">Arabic</option>
+              <option value="hi">Hindi</option>
+              <option value="it">Italian</option>
+              <option value="pt">Portuguese</option>
+              <option value="ru">Russian</option>
+              <option value="id">Indonesian</option>
+              <option value="ms">Malay</option>
+              <option value="vi">Vietnamese</option>
+              <option value="th">Thai</option>
+              <option value="nl">Dutch</option>
+              <option value="tr">Turkish</option>
+            </optgroup>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+            <i class="fa-solid fa-chevron-down text-[10px]"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Responsive Translation Card Stack -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 flex-grow">
+      
+      <!-- Source Input Card -->
+      <div class="bg-white dark:bg-slate-800 rounded-2xl p-3.5 sm:p-4 border border-slate-200 dark:border-slate-700/80 shadow-xs flex flex-col justify-between min-h-[190px] sm:min-h-[240px]">
+        <div class="relative w-full flex-grow flex flex-col">
+          <textarea id="inputText" placeholder="Type, paste, or tap the microphone to speak..." class="w-full h-full min-h-[110px] sm:min-h-[140px] bg-transparent text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 border-none outline-none resize-none leading-relaxed focus:ring-0 p-0 text-base" autocapitalize="sentences" autocomplete="off" spellcheck="true"></textarea>
+          
+          <!-- Clear Button -->
+          <button id="clearInputBtn" title="Clear input text" aria-label="Clear input text" class="hidden absolute top-0 right-0 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center transition-colors active:scale-90 touch-manipulation">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+
+        <div class="pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <!-- Voice Input Button (Android Optimized) -->
+            <button id="micBtn" title="Speak into microphone" aria-label="Activate voice microphone" class="w-11 h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all flex items-center justify-center active:scale-95 touch-manipulation">
+              <i id="micIcon" class="fa-solid fa-microphone text-base"></i>
+            </button>
+            <!-- Voice Listen Button -->
+            <button id="speakInputBtn" title="Listen to input" aria-label="Play source audio" class="w-11 h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors flex items-center justify-center active:scale-95 touch-manipulation">
+              <i class="fa-solid fa-volume-high text-base"></i>
+            </button>
+          </div>
+          <span id="charCounter" class="text-xs text-slate-400 font-mono">0 / 5000</span>
+        </div>
+      </div>
+
+      <!-- Output / Translation Card -->
+      <div class="bg-white dark:bg-slate-800 rounded-2xl p-3.5 sm:p-4 border border-slate-200 dark:border-slate-700/80 shadow-xs flex flex-col justify-between min-h-[190px] sm:min-h-[240px]">
+        <div class="relative w-full flex-grow flex flex-col">
+          <div id="translationOutput" class="w-full bg-transparent text-slate-900 dark:text-slate-100 leading-relaxed whitespace-pre-wrap select-text mb-3 text-base">
+            <span class="text-slate-400 dark:text-slate-500 italic">Translation will appear here...</span>
+          </div>
+
+          <!-- Pronunciation Guide Banner -->
+          <div id="pronunciationCard" class="hidden mt-auto mb-2 p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/50 flex flex-col gap-1 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-spell-check text-xs"></i>
+                <span id="pronunciationHeading">Phonetic & Accent Cadence</span>
+              </span>
+              <button id="copyPronunciationBtn" title="Copy Pronunciation" class="text-amber-700 dark:text-amber-300 hover:opacity-80 text-xs flex items-center gap-1 font-semibold py-1 px-1.5 touch-manipulation">
+                <i class="fa-solid fa-copy text-[11px]"></i>
+                <span class="text-[10px]">Copy</span>
+              </button>
+            </div>
+            <p id="pronunciationText" class="text-xs sm:text-sm font-mono text-amber-900 dark:text-amber-200 leading-snug break-words"></p>
+          </div>
+
+          <!-- Loading Spinner Overlay -->
+          <div id="loadingOverlay" class="hidden absolute inset-0 bg-white/75 dark:bg-slate-800/75 backdrop-blur-[2px] flex items-center justify-center rounded-xl z-10">
+            <div class="flex items-center space-x-2.5 bg-white dark:bg-slate-700 px-4 py-2.5 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-600">
+              <i class="fa-solid fa-circle-notch animate-spin text-blue-600 dark:text-blue-400 text-base"></i>
+              <span id="loadingMessage" class="text-xs font-semibold text-slate-700 dark:text-slate-200">Translating dialect...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <!-- Listen Translated Button -->
+            <button id="speakOutputBtn" title="Listen to translation" aria-label="Play translation audio" class="w-11 h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors flex items-center justify-center active:scale-95 touch-manipulation">
+              <i class="fa-solid fa-volume-high text-base"></i>
+            </button>
+            <!-- Copy Translation Button -->
+            <button id="copyBtn" title="Copy to clipboard" aria-label="Copy translated text" class="w-11 h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors flex items-center justify-center active:scale-95 touch-manipulation">
+              <i class="fa-solid fa-copy text-base"></i>
+            </button>
+            <!-- Native Share Button -->
+            <button id="shareBtn" title="Share translation" aria-label="Share translation" class="w-11 h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors flex items-center justify-center active:scale-95 touch-manipulation">
+              <i class="fa-solid fa-share-nodes text-base"></i>
+            </button>
+          </div>
+          <span id="detectedLangBadge" class="hidden text-xs font-semibold px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 truncate max-w-[150px]">
+            Detected
+          </span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Ergonomic Sticky Action Bottom Bar -->
+  <footer class="w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-t border-slate-200 dark:border-slate-700/80 sticky bottom-0 z-20 pb-safe transition-colors">
+    <div class="max-w-4xl mx-auto px-3.5 sm:px-4 py-2.5 sm:py-3">
+      <button id="translateBtn" class="w-full h-12 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-base shadow-lg shadow-blue-500/25 transition-all active:scale-[0.98] flex items-center justify-center space-x-2 touch-manipulation">
+        <i class="fa-solid fa-wand-magic-sparkles text-base"></i>
+        <span>Translate Dialect</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Sheet / Modal for Gemini Settings -->
+  <div id="geminiModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center hidden transition-opacity duration-200">
+    <div class="bg-white dark:bg-slate-800 border-t sm:border border-slate-200 dark:border-slate-700 rounded-t-3xl sm:rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl transition-all transform translate-y-full sm:translate-y-0 sm:scale-95 opacity-0 duration-200 max-h-[90dvh] overflow-y-auto pb-safe" id="geminiModalCard">
+      
+      <!-- Mobile Drag Handle Pill -->
+      <div class="w-12 h-1.5 bg-slate-200 dark:bg-slate-600 rounded-full mx-auto mb-3 sm:hidden"></div>
+
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-slate-900 dark:text-white leading-tight">Google Gemini AI</h3>
+            <p class="text-[11px] text-slate-400">Authentic regional dialect & voice tuning</p>
+          </div>
+        </div>
+        <button id="closeGeminiModal" class="w-11 h-11 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center touch-manipulation active:scale-90">
+          <i class="fa-solid fa-xmark text-base"></i>
+        </button>
+      </div>
+
+      <div class="mt-4 space-y-3.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+        <p class="leading-relaxed">Add a free Gemini API key to unlock nuanced cultural translation across Philippine dialects and enable AI voice transcribing on browsers like Firefox Mobile.</p>
+
+        <div>
+          <label for="geminiApiKeyInput" class="block font-semibold mb-1 text-slate-700 dark:text-slate-200">Gemini API Key</label>
+          <div class="relative">
+            <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." class="w-full px-3 py-2.5 pr-10 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 font-mono text-sm touch-manipulation" />
+            <button id="toggleKeyVisibility" type="button" class="w-10 h-10 absolute right-0 top-0 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center touch-manipulation">
+              <i id="keyVisibilityIcon" class="fa-solid fa-eye text-xs"></i>
+            </button>
+          </div>
+          <p class="mt-1 text-[11px] text-slate-400">
+            Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Google AI Studio</a>.
+          </p>
+        </div>
+
+        <div>
+          <label for="geminiModelSelect" class="block font-semibold mb-1 text-slate-700 dark:text-slate-200">Model</label>
+          <select id="geminiModelSelect" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none touch-manipulation">
+            <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Recommended - Fastest)</option>
+            <option value="gemini-2.5-pro">Gemini 2.5 Pro (Highest Accuracy)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-3.5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
+        <button id="clearGeminiKeyBtn" class="text-xs text-red-500 hover:text-red-700 font-semibold py-2 px-1 touch-manipulation">Clear Key</button>
+        <div class="flex items-center space-x-2">
+          <button id="cancelGeminiModalBtn" class="h-10 px-3.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-semibold touch-manipulation">Cancel</button>
+          <button id="saveGeminiKeyBtn" class="h-10 px-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-md active:scale-95 touch-manipulation">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container for Mobile -->
+  <div id="toastContainer" class="fixed top-14 left-1/2 -translate-x-1/2 sm:top-auto sm:bottom-20 sm:right-6 sm:translate-x-0 z-50 flex flex-col space-y-2 pointer-events-none w-11/12 max-w-xs"></div>
+
+  <!-- Translation & Audio Engine Scripts -->
+  <script>
+    const sourceLang = document.getElementById('sourceLang');
+    const targetLang = document.getElementById('targetLang');
+    const swapBtn = document.getElementById('swapBtn');
+    const inputText = document.getElementById('inputText');
+    const clearInputBtn = document.getElementById('clearInputBtn');
+    const micBtn = document.getElementById('micBtn');
+    const micIcon = document.getElementById('micIcon');
+    const speakInputBtn = document.getElementById('speakInputBtn');
+    const speakOutputBtn = document.getElementById('speakOutputBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const translateBtn = document.getElementById('translateBtn');
+    const translationOutput = document.getElementById('translationOutput');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const charCounter = document.getElementById('charCounter');
+    const detectedLangBadge = document.getElementById('detectedLangBadge');
+    const toastContainer = document.getElementById('toastContainer');
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const metaThemeColor = document.getElementById('metaThemeColor');
+    const quickPhrasesContainer = document.getElementById('quickPhrasesContainer');
+    const pronunciationCard = document.getElementById('pronunciationCard');
+    const pronunciationText = document.getElementById('pronunciationText');
+    const copyPronunciationBtn = document.getElementById('copyPronunciationBtn');
+    const insecureWarning = document.getElementById('insecureWarning');
+
+    // Gemini Modal Elements
+    const geminiModalBtn = document.getElementById('geminiModalBtn');
+    const geminiModal = document.getElementById('geminiModal');
+    const geminiModalCard = document.getElementById('geminiModalCard');
+    const closeGeminiModal = document.getElementById('closeGeminiModal');
+    const cancelGeminiModalBtn = document.getElementById('cancelGeminiModalBtn');
+    const saveGeminiKeyBtn = document.getElementById('saveGeminiKeyBtn');
+    const clearGeminiKeyBtn = document.getElementById('clearGeminiKeyBtn');
+    const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
+    const geminiModelSelect = document.getElementById('geminiModelSelect');
+    const geminiStatusDot = document.getElementById('geminiStatusDot');
+    const toggleKeyVisibility = document.getElementById('toggleKeyVisibility');
+    const keyVisibilityIcon = document.getElementById('keyVisibilityIcon');
+
+    let translatedTextValue = "";
+    let pronunciationValue = "";
+    let isRecording = false;
+    let speechRecognition = null;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let translationDebounceTimer = null;
+    let activeAudioPlayer = null;
+    let audioCtx = null;
+
+    let geminiApiKey = localStorage.getItem('gemini_api_key') || "";
+    let geminiModel = localStorage.getItem('gemini_model') || "gemini-2.5-flash";
+
+    // Detect Secure Context (Android Chrome & browsers forbid mic on HTTP)
+    function checkSecureContext() {
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      if (!window.isSecureContext && !isLocalhost) {
+        insecureWarning.classList.remove('hidden');
+      }
+    }
+
+    function triggerHaptic(duration = 15) {
+      if ('vibrate' in navigator) {
+        try { navigator.vibrate(duration); } catch (e) {}
+      }
+    }
+
+    function showToast(message, iconClass = 'fa-circle-check text-green-400') {
+      const toast = document.createElement('div');
+      toast.className = 'pointer-events-auto w-full bg-slate-900/95 dark:bg-slate-800/95 backdrop-blur-md text-white text-xs px-3.5 py-2.5 rounded-2xl shadow-2xl border border-slate-700/50 flex items-center justify-center space-x-2 transition-all transform -translate-y-2 opacity-0 duration-200 text-center';
+      toast.innerHTML = `<i class="fa-solid ${iconClass} shrink-0"></i><span class="truncate">${message}</span>`;
+      
+      toastContainer.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.remove('-translate-y-2', 'opacity-0'));
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-2');
+        setTimeout(() => toast.remove(), 200);
+      }, 3000);
+    }
+
+    function updateGeminiStatusUI() {
+      if (geminiApiKey && geminiApiKey.trim().length > 5) {
+        geminiStatusDot.className = 'w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50';
+      } else {
+        geminiStatusDot.className = 'w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600';
+      }
+    }
+
+    // Android AudioContext Unlocking
+    function unlockAudioEngine() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      if ('speechSynthesis' in window && window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+    }
+    ['click', 'touchstart'].forEach(evt => document.addEventListener(evt, unlockAudioEngine, { once: true }));
+
+    /* ----------------------------------------------------
+       ANDROID MICROPHONE & SPEECH RECOGNITION SUBSYSTEM
+    ---------------------------------------------------- */
+    const ALL_PHILIPPINE_LANGS = new Set([
+      'ceb', 'tl', 'ilo', 'hil', 'war', 'pam', 'pag', 'bcl',
+      'krj', 'akl', 'cps', 'msb', 'rol', 'cyo',
+      'cbk', 'tsg', 'mrw', 'mdh', 'sgd', 'yka',
+      'ibg', 'ivv', 'kne'
+    ]);
+
+    const ALL_ENGLISH_VARIETIES = new Set([
+      'en-US', 'en-GB', 'en-PH', 'en-AU', 'en-CA', 'en-IN', 
+      'en-SG', 'en-IE', 'en-ZA', 'en-NZ', 'en-JM', 'pcm',
+      'en-shk', 'en-biz', 'en-genz', 'ang'
+    ]);
+
+    function getSpeechLocale(langCode) {
+      if (langCode === 'cbk') return 'es-PH';
+      if (ALL_PHILIPPINE_LANGS.has(langCode)) return 'fil-PH';
+
+      const localeMap = {
+        'en-US': 'en-US', 'en-GB': 'en-GB', 'en-PH': 'en-PH', 'en-AU': 'en-AU',
+        'en-CA': 'en-CA', 'en-IN': 'en-IN', 'en-SG': 'en-SG', 'en-IE': 'en-IE',
+        'en-ZA': 'en-ZA', 'en-NZ': 'en-NZ', 'en-JM': 'en-GB', 'pcm': 'en-NG',
+        'en-shk': 'en-GB', 'en-biz': 'en-US', 'en-genz': 'en-US', 'ang': 'en-GB',
+        'es': 'es-ES', 'ja': 'ja-JP', 'zh-CN': 'zh-CN', 'ko': 'ko-KR', 'fr': 'fr-FR',
+        'de': 'de-DE', 'ar': 'ar-SA', 'hi': 'hi-IN', 'it': 'it-IT', 'pt': 'pt-PT',
+        'ru': 'ru-RU', 'id': 'id-ID', 'ms': 'ms-MY', 'vi': 'vi-VN', 'th': 'th-TH',
+        'nl': 'nl-NL', 'tr': 'tr-TR'
+      };
+      return localeMap[langCode] || 'en-US';
+    }
+
+    function initSpeechRecognition() {
+      const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognitionAPI) return null;
+
+      try {
+        const recognition = new SpeechRecognitionAPI();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+          isRecording = true;
+          triggerHaptic(30);
+          micBtn.classList.add('mic-recording');
+          micIcon.className = 'fa-solid fa-microphone-lines text-base';
+          showToast('Listening to your voice...', 'fa-microphone text-red-400');
+        };
+
+        recognition.onresult = (event) => {
+          let transcript = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+          }
+          inputText.value = transcript;
+          updateInputState();
+        };
+
+        recognition.onerror = (event) => {
+          stopRecording();
+          if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+            showToast('Mic permission blocked. Allow mic in browser settings.', 'fa-lock text-red-400');
+          } else if (event.error === 'no-speech') {
+            showToast('No speech detected. Please try again.', 'fa-comment-slash text-amber-400');
+          } else {
+            showToast(`Mic notice: ${event.error}`, 'fa-circle-exclamation text-amber-400');
+          }
+        };
+
+        recognition.onend = () => {
+          stopRecording();
+          if (inputText.value.trim().length > 0) {
+            performTranslation();
+          }
+        };
+        return recognition;
+      } catch (e) {
+        console.warn('SpeechRecognition initialization error:', e);
+        return null;
+      }
+    }
+
+    // Android Universal Microphone Handler
+    async function toggleRecording() {
+      triggerHaptic();
+      unlockAudioEngine();
+
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      if (!window.isSecureContext && !isLocalhost) {
+        showToast('Microphone requires HTTPS on Android', 'fa-shield-halved text-amber-400');
+        return;
+      }
+
+      if (isRecording) {
+        stopRecording();
+        return;
+      }
+
+      // Check permission state if Permissions API is supported
+      if (navigator.permissions && navigator.permissions.query) {
+        try {
+          const status = await navigator.permissions.query({ name: 'microphone' });
+          if (status.state === 'denied') {
+            showToast('Mic blocked! Tap lock icon near URL to allow.', 'fa-lock text-red-400');
+            return;
+          }
+        } catch (e) {
+          // Permissions query for mic may not be implemented in all browsers; continue
+        }
+      }
+
+      // First try native Web Speech API (Supported by Chrome, Samsung Internet, Edge)
+      if (!speechRecognition) {
+        speechRecognition = initSpeechRecognition();
+      }
+
+      if (speechRecognition) {
+        const src = sourceLang.value;
+        speechRecognition.lang = getSpeechLocale(src === 'autodetect' ? 'en-US' : src);
+        try {
+          speechRecognition.start();
+          return;
+        } catch (err) {
+          console.warn('speechRecognition.start() error, attempting fallback:', err);
+        }
+      }
+
+      // Fallback for Firefox Mobile, Opera, or browsers lacking Web Speech API
+      // Uses MediaRecorder with Gemini Multimodal Voice Transcription
+      startMediaRecorderFallback();
+    }
+
+    async function startMediaRecorderFallback() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        showToast('Microphone not supported on this browser', 'fa-circle-exclamation text-red-400');
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          }
+        });
+
+        audioChunks = [];
+        let mimeType = 'audio/webm';
+        if (!MediaRecorder.isTypeSupported('audio/webm')) {
+          if (MediaRecorder.isTypeSupported('audio/mp4')) mimeType = 'audio/mp4';
+          else if (MediaRecorder.isTypeSupported('audio/ogg')) mimeType = 'audio/ogg';
+          else mimeType = '';
+        }
+
+        mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) audioChunks.push(e.data);
+        };
+
+        mediaRecorder.onstart = () => {
+          isRecording = true;
+          triggerHaptic(30);
+          micBtn.classList.add('mic-recording');
+          micIcon.className = 'fa-solid fa-microphone-lines text-base';
+          showToast('Recording voice (tap mic when done)...', 'fa-microphone text-red-400');
+        };
+
+        mediaRecorder.onstop = async () => {
+          stream.getTracks().forEach(track => track.stop());
+          const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+          if (audioBlob.size > 0) {
+            await transcribeAudioWithGemini(audioBlob);
+          }
+        };
+
+        mediaRecorder.start(250);
+      } catch (err) {
+        console.error('Microphone access denied:', err);
+        showToast('Microphone permission denied', 'fa-lock text-red-400');
+        stopRecording();
+      }
+    }
+
+    function stopRecording() {
+      isRecording = false;
+      micBtn.classList.remove('mic-recording');
+      micIcon.className = 'fa-solid fa-microphone text-base';
+
+      if (speechRecognition) {
+        try { speechRecognition.stop(); } catch (e) {}
+      }
+
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        try { mediaRecorder.stop(); } catch (e) {}
+      }
+    }
+
+    micBtn.addEventListener('click', toggleRecording);
+
+    // Multimodal Gemini Audio Transcriber (Handles audio on Firefox Android & alternative browsers)
+    async function transcribeAudioWithGemini(blob) {
+      if (!geminiApiKey || geminiApiKey.trim().length < 5) {
+        showToast('Add Gemini API Key to enable AI Voice Transcribing on this browser', 'fa-key text-amber-400');
+        return;
+      }
+
+      loadingOverlay.classList.remove('hidden');
+      loadingMessage.textContent = 'Transcribing your voice with Gemini...';
+
+      try {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = async () => {
+          const base64Data = reader.result.split(',')[1];
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${geminiApiKey}`;
+
+          const requestBody = {
+            contents: [
+              {
+                parts: [
+                  { text: "Listen carefully to this audio and transcribe exactly what is spoken. Return only the raw spoken transcription text without quotes or explanations." },
+                  {
+                    inlineData: {
+                      mimeType: blob.type.split(';')[0] || "audio/webm",
+                      data: base64Data
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            const transcript = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+            if (transcript) {
+              inputText.value = transcript;
+              updateInputState();
+              performTranslation();
+            } else {
+              showToast('No speech recognized in audio', 'fa-comment-slash text-amber-400');
+            }
+          } else {
+            showToast('Voice transcription failed', 'fa-circle-exclamation text-red-400');
+          }
+          loadingOverlay.classList.add('hidden');
+        };
+      } catch (err) {
+        console.error('Gemini Voice Transcription Error:', err);
+        loadingOverlay.classList.add('hidden');
+        showToast('Failed to process voice recording', 'fa-circle-exclamation text-red-400');
+      }
+    }
+
+    /* ----------------------------------------------------
+       ANDROID ROBUST AUDIO PLAYBACK / TTS SUBSYSTEM
+    ---------------------------------------------------- */
+    function speakText(text, langCode) {
+      if (!text || !text.trim()) return;
+      triggerHaptic();
+      unlockAudioEngine();
+
+      if (activeAudioPlayer) {
+        try {
+          activeAudioPlayer.pause();
+          activeAudioPlayer.currentTime = 0;
+        } catch (e) {}
+        activeAudioPlayer = null;
+      }
+
+      const localeCode = getSpeechLocale(langCode);
+      const isPH = ALL_PHILIPPINE_LANGS.has(langCode);
+      const isEnglish = ALL_ENGLISH_VARIETIES.has(langCode);
+      
+      let ttsLang = langCode;
+      if (isPH) {
+        ttsLang = (langCode === 'cbk' ? 'es' : 'tl');
+      } else if (isEnglish) {
+        ttsLang = (langCode === 'en-GB' || langCode === 'en-AU' || langCode === 'en-shk' || langCode === 'en-IE') ? 'en-GB' : 'en';
+      }
+
+      // Android Fallback Stream Audio Engine
+      const playAudioStreamFallback = () => {
+        try {
+          const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text.slice(0, 200))}&tl=${ttsLang}&client=tw-ob`;
+          const audio = new Audio(ttsUrl);
+          activeAudioPlayer = audio;
+
+          // Android audio play must be initiated directly from user gesture call stack
+          const playPromise = audio.play();
+          if (playPromise !== undefined) {
+            playPromise.then(() => {
+              showToast('Playing pronunciation...', 'fa-volume-high text-blue-400');
+            }).catch(err => {
+              console.warn('Audio stream playback failed:', err);
+              showToast('Audio playback blocked by browser', 'fa-volume-xmark text-amber-400');
+            });
+          }
+        } catch (err) {
+          showToast('Speech unavailable on this device', 'fa-circle-exclamation text-amber-400');
+        }
+      };
+
+      // Native SpeechSynthesis on Android
+      if ('speechSynthesis' in window) {
+        try {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.rate = 0.95;
+          utterance.pitch = 1.0;
+          utterance.lang = localeCode;
+
+          const voices = window.speechSynthesis.getVoices();
+          let chosenVoice = voices.find(v => v.lang.toLowerCase() === localeCode.toLowerCase() || v.lang.replace('_', '-').toLowerCase() === localeCode.toLowerCase());
+          
+          if (!chosenVoice && isEnglish) {
+            const country = localeCode.split('-')[1];
+            chosenVoice = voices.find(v => v.lang.includes(country) || v.name.includes(country));
+            if (!chosenVoice) chosenVoice = voices.find(v => v.lang.startsWith('en'));
+          } else if (!chosenVoice && isPH) {
+            chosenVoice = voices.find(v => v.lang.startsWith('fil') || v.lang.startsWith('tl') || v.lang.startsWith('id') || v.lang.startsWith('es'));
+          }
+          if (chosenVoice) utterance.voice = chosenVoice;
+
+          let spoken = false;
+          utterance.onstart = () => {
+            spoken = true;
+            showToast('Reading out loud...', 'fa-volume-high text-blue-400');
+          };
+          utterance.onerror = () => playAudioStreamFallback();
+
+          window.speechSynthesis.speak(utterance);
+          setTimeout(() => {
+            if (!spoken && !window.speechSynthesis.speaking) playAudioStreamFallback();
+          }, 350);
+          return;
+        } catch (e) {}
+      }
+      playAudioStreamFallback();
+    }
+
+    speakInputBtn.addEventListener('click', () => {
+      speakText(inputText.value, sourceLang.value === 'autodetect' ? 'en-US' : sourceLang.value);
+    });
+
+    speakOutputBtn.addEventListener('click', () => {
+      speakText(translatedTextValue, targetLang.value);
+    });
+
+    /* ----------------------------------------------------
+       GEMINI MODAL & TRANSLATION SETTINGS
+    ---------------------------------------------------- */
+    function openGeminiModal() {
+      triggerHaptic();
+      geminiApiKeyInput.value = geminiApiKey;
+      geminiModelSelect.value = geminiModel;
+      geminiModal.classList.remove('hidden');
+      setTimeout(() => {
+        geminiModalCard.classList.remove('translate-y-full', 'sm:scale-95', 'opacity-0');
+        geminiModalCard.classList.add('translate-y-0', 'sm:scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closeGeminiModalHandler() {
+      triggerHaptic();
+      geminiModalCard.classList.remove('translate-y-0', 'sm:scale-100', 'opacity-100');
+      geminiModalCard.classList.add('translate-y-full', 'sm:scale-95', 'opacity-0');
+      setTimeout(() => {
+        geminiModal.classList.add('hidden');
+      }, 200);
+    }
+
+    geminiModalBtn.addEventListener('click', openGeminiModal);
+    closeGeminiModal.addEventListener('click', closeGeminiModalHandler);
+    cancelGeminiModalBtn.addEventListener('click', closeGeminiModalHandler);
+
+    geminiModal.addEventListener('click', (e) => {
+      if (e.target === geminiModal) closeGeminiModalHandler();
+    });
+
+    toggleKeyVisibility.addEventListener('click', () => {
+      triggerHaptic();
+      if (geminiApiKeyInput.type === 'password') {
+        geminiApiKeyInput.type = 'text';
+        keyVisibilityIcon.className = 'fa-solid fa-eye-slash text-xs';
+      } else {
+        geminiApiKeyInput.type = 'password';
+        keyVisibilityIcon.className = 'fa-solid fa-eye text-xs';
+      }
+    });
+
+    saveGeminiKeyBtn.addEventListener('click', () => {
+      triggerHaptic();
+      const keyVal = geminiApiKeyInput.value.trim();
+      const modelVal = geminiModelSelect.value;
+      if (!keyVal) {
+        showToast('Please enter a valid Gemini API key', 'fa-circle-exclamation text-amber-400');
+        return;
+      }
+      geminiApiKey = keyVal;
+      geminiModel = modelVal;
+      localStorage.setItem('gemini_api_key', geminiApiKey);
+      localStorage.setItem('gemini_model', geminiModel);
+      updateGeminiStatusUI();
+      closeGeminiModalHandler();
+      showToast('Gemini AI connected!', 'fa-wand-magic-sparkles text-purple-400');
+      if (inputText.value.trim()) performTranslation();
+    });
+
+    clearGeminiKeyBtn.addEventListener('click', () => {
+      triggerHaptic();
+      geminiApiKey = "";
+      localStorage.removeItem('gemini_api_key');
+      geminiApiKeyInput.value = "";
+      updateGeminiStatusUI();
+      closeGeminiModalHandler();
+      showToast('Gemini API key cleared', 'fa-circle-info text-blue-400');
+    });
+
+    /* ----------------------------------------------------
+       ENGLISH DIALECT & REGIONAL DIALECT TRANSLATION LOGIC
+    ---------------------------------------------------- */
+    const ENGLISH_DIALECT_PROMPTS = {
+      'en-US': 'American English (Standard General American spelling, grammar, idioms, and vocabulary)',
+      'en-GB': 'British English (UK spelling like colour/organise/centre, authentic British vocabulary like lift, flat, loo, queue, cheeky, bloke, holiday, dodgy, rubbish, trainers)',
+      'en-PH': 'Philippine English (Official Philippine English idioms, vocabulary and syntax: comfort room/CR, batchmate, avail of, chanced upon, heavy traffic, brownout, rubber shoes, ballpen, gasoline station, highly respectful formal polite register)',
+      'en-AU': 'Australian English (Aussie vernacular, British spelling, idioms and slang: g\'day, mate, arvo, brekkie, barbie, servo, fair dinkum, no worries, heaps, sweet as, bludger, bottle-o)',
+      'en-CA': 'Canadian English (Canadian spelling like colour and centre, Canadian vocabulary like washroom, toque, loonie, toonie, serviette, and natural polite Canadian phrasing ending with "eh?")',
+      'en-IN': 'Indian English (Indian English idioms, grammar and syntax: prepone, revert back, do the needful, out of station, pass out, cousin-brother, load shedding, pakka, only)',
+      'en-SG': 'Singaporean English / Singlish (authentic Singaporean English syntax, vocabulary like shiok, makan, kiasu, and natural placement of discourse particles like lah, leh, lor, sia)',
+      'en-IE': 'Irish English / Hiberno-English (Irish idioms, syntax, and vocabulary: grand, sound, craic, ye, yis, giving out, eejit, boy/lad, now so, thanks a million)',
+      'en-ZA': 'South African English (South African idioms and vocabulary: howzit, braai, robot, lekker, bakkie, now-now, just now, shame, bru, hundred percent)',
+      'en-NZ': 'New Zealand English (Kiwi idioms and vocabulary: kia ora, sweet as, bro, chilly bin, jandals, tramper, chur, dairy, kai)',
+      'en-JM': 'Jamaican Patois / Patwa (Authentic Jamaican creole grammar, syntax, phonology: "Wah gwaan", "Mi deh yah", "Nuh worry yuhself", "dem", "pickney", "irie")',
+      'pcm': 'Nigerian Pidgin English (Authentic Naija Pidgin grammar, syntax, vocabulary: "Wetin dey", "No wahala", "Abeg", "Dey go", "I dey kampe", "Chop", "Yarn")',
+      'en-shk': 'Early Modern / Shakespearean English (Thee, thou, thy, thine, dost, hath, art, wherefore, whither, whence, verily, poetic Early Modern syntax and archaic verb endings in -est/-eth)',
+      'en-biz': 'Corporate / Executive Business English (Polished, high-register professional corporate communication: expedite deliverables, touch base offline, keep me apprised, leverage synergies, at your earliest convenience)',
+      'en-genz': 'Gen Z & Internet Slang English (Modern internet slang: no cap fr fr, straight fire, lowkey, rizz, cooked, bet, slay, main character energy, giving, periodt)',
+      'ang': 'Old English / Anglo-Saxon (Historical early medieval West Saxon Germanic vocabulary, grammar, and orthography)'
+    };
+
+    const DIALECT_BRIDGES = {
+      'cbk': { base: 'es', name: 'Chavacano' },
+      'krj': { base: 'hil', name: 'Kinaray-a' },
+      'akl': { base: 'hil', name: 'Aklanon' },
+      'cps': { base: 'hil', name: 'Capiznon' },
+      'msb': { base: 'bcl', name: 'Masbateño' },
+      'rol': { base: 'hil', name: 'Romblomanon' },
+      'sgd': { base: 'ceb', name: 'Surigaonon' },
+      'cyo': { base: 'tl', name: 'Cuyonon' },
+      'ibg': { base: 'ilo', name: 'Ibanag' },
+      'ivv': { base: 'ilo', name: 'Ivatan' },
+      'kne': { base: 'ilo', name: 'Kankanaey' },
+      'tsg': { base: 'ceb', name: 'Tausug' },
+      'mrw': { base: 'tl', name: 'Maranao' },
+      'mdh': { base: 'tl', name: 'Maguindanaon' },
+      'yka': { base: 'tl', name: 'Yakan' }
+    };
+
+    function getLanguageDescription(code) {
+      if (ENGLISH_DIALECT_PROMPTS[code]) return ENGLISH_DIALECT_PROMPTS[code];
+      const opt = Array.from(targetLang.options).find(o => o.value === code);
+      return opt ? opt.text.replace(/^[^\w\s]+/, '').trim() : code;
+    }
+
+    function generatePhilippinePhonetics(text) {
+      if (!text) return "";
+      return text.split(' ').map(word => {
+        let clean = word.trim();
+        if (!clean) return "";
+        const punctuation = clean.match(/[.,!?]$/)?.[0] || "";
+        clean = clean.replace(/[.,!?]$/, "");
+
+        let phonetic = clean.toLowerCase()
+          .replace(/ng/g, 'ng-')
+          .replace(/aa/g, 'ah-ah')
+          .replace(/ii/g, 'ee-ee')
+          .replace(/oo/g, 'oh-oh')
+          .replace(/a/g, 'ah-')
+          .replace(/e/g, 'eh-')
+          .replace(/i/g, 'ee-')
+          .replace(/o/g, 'oh-')
+          .replace(/u/g, 'oo-')
+          .replace(/-+/g, '-')
+          .replace(/^-|-$/g, '');
+
+        if (word[0] === word[0].toUpperCase()) phonetic = phonetic.toUpperCase();
+        return `[${phonetic}]${punctuation}`;
+      }).join(' ');
+    }
+
+    function updatePronunciationDisplay(text, lang, transliteration = null) {
+      if (!text) {
+        pronunciationCard.classList.add('hidden');
+        pronunciationValue = "";
+        return;
+      }
+
+      if (transliteration) {
+        pronunciationValue = transliteration;
+      } else if (ALL_PHILIPPINE_LANGS.has(lang)) {
+        pronunciationValue = generatePhilippinePhonetics(text);
+      } else if (lang === 'en-JM') {
+        pronunciationValue = "Jamaican Creole: [Wah gwaan / Patois stress]";
+      } else if (lang === 'pcm') {
+        pronunciationValue = "Naija Pidgin: [West African Pidgin Intonation]";
+      } else if (lang === 'en-shk') {
+        pronunciationValue = "Early Modern: [Archaic English meter & cadence]";
+      } else {
+        pronunciationValue = text.split('').join('·');
+      }
+
+      if (pronunciationValue && pronunciationValue.trim()) {
+        pronunciationText.textContent = pronunciationValue;
+        pronunciationCard.classList.remove('hidden');
+      } else {
+        pronunciationCard.classList.add('hidden');
+      }
+    }
+
+    function transformEnglishDialect(text, src, tgt) {
+      if (!text || src === tgt) return text;
+      let output = text;
+
+      if (tgt === 'en-GB') {
+        output = output
+          .replace(/\bwhere is the restroom\b/gi, 'where is the loo')
+          .replace(/\bwhere is the bathroom\b/gi, 'where is the toilet')
+          .replace(/\brestroom|bathroom\b/gi, 'loo')
+          .replace(/\belevator\b/gi, 'lift')
+          .replace(/\bapartment\b/gi, 'flat')
+          .replace(/\bsidewalk\b/gi, 'pavement')
+          .replace(/\bgarbage|trash\b/gi, 'rubbish')
+          .replace(/\bfrench fries|fries\b/gi, 'chips')
+          .replace(/\bpotato chips|chips\b/gi, 'crisps')
+          .replace(/\bcookies\b/gi, 'biscuits')
+          .replace(/\btruck\b/gi, 'lorry')
+          .replace(/\btrunk\b/gi, 'boot')
+          .replace(/\bhood\b/gi, 'bonnet')
+          .replace(/\bsubway\b/gi, 'underground')
+          .replace(/\bsweater\b/gi, 'jumper')
+          .replace(/\bflashlight\b/gi, 'torch')
+          .replace(/\bsneakers\b/gi, 'trainers')
+          .replace(/\bvacation\b/gi, 'holiday')
+          .replace(/\bline\b/gi, 'queue')
+          .replace(/\bdiaper\b/gi, 'nappy')
+          .replace(/\bdude|guy\b/gi, 'bloke')
+          .replace(/\bawesome|great\b/gi, 'brilliant')
+          .replace(/\bcrazy\b/gi, 'bonkers')
+          .replace(/\btired|exhausted\b/gi, 'knackered')
+          .replace(/\bcolor\b/gi, 'colour').replace(/\bflavor\b/gi, 'flavour').replace(/\bhonor\b/gi, 'honour')
+          .replace(/\bneighbor\b/gi, 'neighbour').replace(/\brumor\b/gi, 'rumour').replace(/\blabor\b/gi, 'labour')
+          .replace(/\borganize\b/gi, 'organise').replace(/\brealize\b/gi, 'realise').replace(/\bapologize\b/gi, 'apologise')
+          .replace(/\banalyze\b/gi, 'analyse').replace(/\bparalyze\b/gi, 'paralyse')
+          .replace(/\bcenter\b/gi, 'centre').replace(/\btheater\b/gi, 'theatre').replace(/\bmeter\b/gi, 'metre')
+          .replace(/\bdefense\b/gi, 'defence').replace(/\boffense\b/gi, 'offence');
+      } else if (tgt === 'en-AU') {
+        output = output
+          .replace(/\bgood morning\b/gi, "g'day this morning")
+          .replace(/\bgood afternoon\b/gi, "g'day this arvo")
+          .replace(/\bhello|hi\b/gi, "g'day")
+          .replace(/\bfriend|buddy|pal\b/gi, 'mate')
+          .replace(/\bafternoon\b/gi, 'arvo')
+          .replace(/\bbreakfast\b/gi, 'brekkie')
+          .replace(/\bbarbecue\b/gi, 'barbie')
+          .replace(/\bgas station|service station\b/gi, 'servo')
+          .replace(/\bconvenience store\b/gi, 'milk bar')
+          .replace(/\bliquor store\b/gi, 'bottle-o')
+          .replace(/\bsunglasses\b/gi, 'sunnies')
+          .replace(/\bswimsuit|trunks\b/gi, 'togs')
+          .replace(/\bmosquito\b/gi, 'mozzies')
+          .replace(/\bchicken\b/gi, 'chook')
+          .replace(/\bpickup truck|truck\b/gi, 'ute')
+          .replace(/\btruly|really|definitely\b/gi, 'fair dinkum')
+          .replace(/\blots of|very\b/gi, 'heaps of')
+          .replace(/\bgood|fine|no problem\b/gi, 'no worries')
+          .replace(/\bthank you|thanks\b/gi, 'cheers mate')
+          .replace(/\bexhausted|tired\b/gi, 'flat out buggered')
+          .replace(/\bcolor\b/gi, 'colour').replace(/\bcenter\b/gi, 'centre').replace(/\borganize\b/gi, 'organise');
+      } else if (tgt === 'en-PH') {
+        output = output
+          .replace(/\brestroom|bathroom|toilet|washroom\b/gi, 'comfort room')
+          .replace(/\brefrigerator|fridge\b/gi, 'ref')
+          .replace(/\bclassmate|colleague|schoolmate\b/gi, 'batchmate')
+          .replace(/\bheavy traffic|traffic jam\b/gi, 'heavy traffic')
+          .replace(/\bblackout|power outage\b/gi, 'brownout')
+          .replace(/\bparticipate in|use\b/gi, 'avail of')
+          .replace(/\bmet by chance|ran into\b/gi, 'chanced upon')
+          .replace(/\bsneakers|tennis shoes\b/gi, 'rubber shoes')
+          .replace(/\bpen\b/gi, 'ballpen')
+          .replace(/\bflip-flops|sandals\b/gi, 'slippers')
+          .replace(/\btakeout|take out|to-go\b/gi, 'take-home')
+          .replace(/\bgas station\b/gi, 'gasoline station')
+          .replace(/\bplease\b/gi, 'kindly please')
+          .replace(/\bcan you\b/gi, 'kindly');
+      } else if (tgt === 'en-IN') {
+        output = output
+          .replace(/\breschedule earlier|move up\b/gi, 'prepone')
+          .replace(/\breply|respond|get back to me\b/gi, 'revert back')
+          .replace(/\btake necessary action|take care of this|handle this\b/gi, 'do the needful')
+          .replace(/\bout of town\b/gi, 'out of station')
+          .replace(/\bgraduated from college|graduated\b/gi, 'passed out from college')
+          .replace(/\bcousin\b/gi, 'cousin-brother')
+          .replace(/\bpower outage|blackout\b/gi, 'load shedding')
+          .replace(/\btake an exam\b/gi, 'sit for the exam')
+          .replace(/\bdefinitely|surely\b/gi, 'hundred percent pakka')
+          .replace(/\bwhat is your name\b/gi, 'what is your good name');
+      } else if (tgt === 'en-SG') {
+        output = output
+          .replace(/\bwhy are you like that\b/gi, 'why you like dat')
+          .replace(/\bwhy are you doing that\b/gi, 'why you do dat sia')
+          .replace(/\bvery delicious|delicious|very good\b/gi, 'damn shiok')
+          .replace(/\bno problem|can do|it is okay\b/gi, 'can lah')
+          .replace(/\bi don't know\b/gi, 'dunno leh')
+          .replace(/\bwhere are you going\b/gi, 'you go where?')
+          .replace(/\beat food|eat\b/gi, 'makan')
+          .replace(/\bscared of losing|competitive\b/gi, 'kiasu')
+          .replace(/\bcrazy\b/gi, 'siao')
+          .replace(/\bwhat happened\b/gi, 'what happen sia')
+          .replace(/\bokay\b/gi, 'okay lor');
+        if (!output.endsWith('lah') && !output.endsWith('leh') && !output.endsWith('lor') && !output.endsWith('sia')) {
+          output = output.replace(/[.!]$/, '') + ' lah.';
+        }
+      } else if (tgt === 'en-IE') {
+        output = output
+          .replace(/\bgood|fine|okay\b/gi, 'grand')
+          .replace(/\bfun|good time|news\b/gi, 'craic')
+          .replace(/\byou all|you guys|you\b/gi, 'ye')
+          .replace(/\bvery|really\b/gi, 'fierce')
+          .replace(/\bguy|boy|man\b/gi, 'lad')
+          .replace(/\bidiot|fool\b/gi, 'eejit')
+          .replace(/\bcomplaining\b/gi, 'giving out')
+          .replace(/\bthank you|thanks\b/gi, 'thanks a million');
+      } else if (tgt === 'en-ZA') {
+        output = output
+          .replace(/\bhello|how are you\b/gi, 'howzit')
+          .replace(/\bbarbecue\b/gi, 'braai')
+          .replace(/\btraffic light\b/gi, 'robot')
+          .replace(/\bgreat|awesome|delicious|nice\b/gi, 'lekker')
+          .replace(/\bpickup truck|truck\b/gi, 'bakkie')
+          .replace(/\bright now|immediately\b/gi, 'now-now')
+          .replace(/\blater today|soon\b/gi, 'just now')
+          .replace(/\bwhat a pity|poor thing\b/gi, 'shame')
+          .replace(/\bfriend|buddy\b/gi, 'bru')
+          .replace(/\bfor sure|definitely\b/gi, 'hundred percent shap-shap');
+      } else if (tgt === 'en-NZ') {
+        output = output
+          .replace(/\bhello\b/gi, 'kia ora')
+          .replace(/\bgreat|awesome|very good\b/gi, 'sweet as')
+          .replace(/\bfriend|bro\b/gi, 'bro')
+          .replace(/\bcooler|ice box\b/gi, 'chilly bin')
+          .replace(/\bflip-flops|sandals\b/gi, 'jandals')
+          .replace(/\bhiker\b/gi, 'tramper')
+          .replace(/\bfood\b/gi, 'kai')
+          .replace(/\bconvenience store\b/gi, 'dairy')
+          .replace(/\bthank you|thanks\b/gi, 'chur bro');
+      } else if (tgt === 'en-CA') {
+        output = output
+          .replace(/\brestroom|bathroom\b/gi, 'washroom')
+          .replace(/\bbeanie|winter hat\b/gi, 'toque')
+          .replace(/\bone-dollar coin|dollar coin\b/gi, 'loonie')
+          .replace(/\btwo-dollar coin\b/gi, 'toonie')
+          .replace(/\bnapkin\b/gi, 'serviette')
+          .replace(/\bsofa|couch\b/gi, 'chesterfield')
+          .replace(/\bcolor\b/gi, 'colour').replace(/\bcenter\b/gi, 'centre');
+        if (!output.includes('eh')) {
+          output = output.replace(/[.!?]$/, '') + ', eh?';
+        }
+      } else if (tgt === 'en-JM') {
+        output = output
+          .replace(/\bwhat is going on|what's going on|what is happening|hello\b/gi, 'wah gwaan')
+          .replace(/\bi am fine|i am here\b/gi, 'mi deh yah')
+          .replace(/\bthere is no problem here|no problem\b/gi, 'everyting irie man')
+          .replace(/\bi am|i\b/gi, 'mi')
+          .replace(/\byou are|you\b/gi, 'yuh')
+          .replace(/\bhe is|she is|he|she\b/gi, 'im')
+          .replace(/\bwe are|we\b/gi, 'wi')
+          .replace(/\bthey are|they|them\b/gi, 'dem')
+          .replace(/\bdo not|don't\b/gi, 'nuh')
+          .replace(/\bwhere are you going\b/gi, 'weh yuh a go')
+          .replace(/\bchild|kid\b/gi, 'pickney')
+          .replace(/\bfriend\b/gi, 'bredren')
+          .replace(/\bvery good|great\b/gi, 'proper irie');
+      } else if (tgt === 'pcm') {
+        output = output
+          .replace(/\bwhat is happening|what is going on|how are you\b/gi, 'wetin dey happen')
+          .replace(/\bi am fine|everything is fine\b/gi, 'body dey inside cloth, no wahala')
+          .replace(/\bplease\b/gi, 'abeg')
+          .replace(/\bno problem|don't worry\b/gi, 'no wahala')
+          .replace(/\bwhat\b/gi, 'wetin')
+          .replace(/\bwhere are you going\b/gi, 'where you dey go')
+          .replace(/\beat|food\b/gi, 'chop')
+          .replace(/\btalk|speak\b/gi, 'yarn')
+          .replace(/\bi am|i\b/gi, 'i')
+          .replace(/\bhe|she\b/gi, 'im')
+          .replace(/\bthey|them\b/gi, 'dem')
+          .replace(/\bis|are\b/gi, 'dey')
+          .replace(/\bunderstand\b/gi, 'sabi');
+      } else if (tgt === 'en-shk') {
+        output = output
+          .replace(/\bdo you know where they have gone\b/gi, 'knowest thou whither they have departed')
+          .replace(/\bdo you know\b/gi, 'knowest thou')
+          .replace(/\byou are\b/gi, 'thou art')
+          .replace(/\byou have\b/gi, 'thou hast')
+          .replace(/\byou do\b/gi, 'thou dost')
+          .replace(/\byou\b/gi, 'thee')
+          .replace(/\byour\b/gi, 'thy')
+          .replace(/\byours\b/gi, 'thine')
+          .replace(/\bwhere\b/gi, 'whither')
+          .replace(/\bwhy\b/gi, 'wherefore')
+          .replace(/\bhas\b/gi, 'hath')
+          .replace(/\bdoes\b/gi, 'doth')
+          .replace(/\btruly|honestly\b/gi, 'verily')
+          .replace(/\bperhaps\b/gi, 'perchance')
+          .replace(/\bbefore\b/gi, 'ere');
+      } else if (tgt === 'en-biz') {
+        output = output
+          .replace(/\bcan you fix this issue quickly and let me know\b/gi, 'kindly expedite remediation of this issue and keep me apprised')
+          .replace(/\bcan you do this quickly\b/gi, 'kindly expedite this deliverable at your earliest convenience')
+          .replace(/\blet's talk about this\b/gi, "let's touch base and sync offline")
+          .replace(/\bi think\b/gi, 'based on current strategic analyses')
+          .replace(/\blet me know|tell me\b/gi, 'please keep me apprised')
+          .replace(/\bfix this\b/gi, 'remediate this bottleneck')
+          .replace(/\bstart\b/gi, 'spearhead')
+          .replace(/\buse\b/gi, 'leverage')
+          .replace(/\bthanks\b/gi, 'much appreciated and best regards');
+      } else if (tgt === 'en-genz') {
+        output = output
+          .replace(/\bi am truly not lying\b/gi, 'no cap fr fr')
+          .replace(/\bhis charisma is incredible and he is winning\b/gi, 'bro has unspoken rizz and is straight up slaying')
+          .replace(/\btruly|honestly|i am not lying\b/gi, 'no cap fr fr')
+          .replace(/\bcharisma|charm\b/gi, 'rizz')
+          .replace(/\bamazing|very good|incredible\b/gi, 'straight fire')
+          .replace(/\bin trouble|ruined\b/gi, 'cooked')
+          .replace(/\bembarrassing\b/gi, 'cringe')
+          .replace(/\bokay|deal|agreed\b/gi, 'bet')
+          .replace(/\ba little bit|secretly\b/gi, 'lowkey')
+          .replace(/\bvery|extremely\b/gi, 'highkey')
+          .replace(/\bwinning|doing great\b/gi, 'slaying');
+      } else if (tgt === 'ang') {
+        output = output
+          .replace(/\bhello|greetings\b/gi, 'wes hāl')
+          .replace(/\bgood morning\b/gi, 'gōdne morgen')
+          .replace(/\bgood evening\b/gi, 'gōdne ǣfen')
+          .replace(/\bthank you\b/gi, 'iċ þancie þē')
+          .replace(/\bfriend\b/gi, 'frēond')
+          .replace(/\bwater\b/gi, 'wæter')
+          .replace(/\bhouse\b/gi, 'hūs')
+          .replace(/\bking\b/gi, 'cyning')
+          .replace(/\byes\b/gi, 'gēa')
+          .replace(/\bno\b/gi, 'nese');
+      } else if (tgt === 'en-US') {
+        output = output
+          .replace(/\bloo|water closet\b/gi, 'restroom')
+          .replace(/\blift\b/gi, 'elevator')
+          .replace(/\bflat\b/gi, 'apartment')
+          .replace(/\bpavement\b/gi, 'sidewalk')
+          .replace(/\blorry\b/gi, 'truck')
+          .replace(/\brubbish\b/gi, 'trash')
+          .replace(/\bboot\b/gi, 'trunk')
+          .replace(/\bbonnet\b/gi, 'hood')
+          .replace(/\btorch\b/gi, 'flashlight')
+          .replace(/\btrainers\b/gi, 'sneakers')
+          .replace(/\bholiday\b/gi, 'vacation')
+          .replace(/\bqueue\b/gi, 'line')
+          .replace(/\bcolour\b/gi, 'color').replace(/\bflavour\b/gi, 'flavor')
+          .replace(/\borganise\b/gi, 'organize').replace(/\brealise\b/gi, 'realize')
+          .replace(/\bcentre\b/gi, 'center').replace(/\btheatre\b/gi, 'theater');
+      }
+
+      return output;
+    }
+
+    async function translateWithGemini(text, src, tgt) {
+      const srcDescription = getLanguageDescription(src);
+      const tgtDescription = getLanguageDescription(tgt);
+      const isIntraEnglish = ALL_ENGLISH_VARIETIES.has(src) && ALL_ENGLISH_VARIETIES.has(tgt);
+
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${geminiApiKey}`;
+
+      const systemPrompt = `You are an elite sociolinguist and native dialect translator specializing in world languages, Philippine dialects, and distinctive English varieties (e.g. American, British, Philippine English, Australian, Indian, Singaporean Singlish, Irish, South African, New Zealand, Jamaican Patois, Nigerian Pidgin, Shakespearean, Corporate, and Gen Z slang).
+
+${isIntraEnglish ? `IMPORTANT: This is an INTRA-ENGLISH DIALECT TRANSLATION from "${srcDescription}" to "${tgtDescription}".
+You must completely REWRITE and TRANSFORM the text so that it genuinely reflects the target dialect's distinctive syntax, local vocabulary, spelling, idioms, slang, and cultural tone. DO NOT return the same sentence unchanged.` : `Translate the provided text faithfully and naturally from "${srcDescription}" to "${tgtDescription}".`}
+
+Respond strictly in valid JSON format:
+{
+  "translation": "The authentically transformed and translated output in the requested dialect",
+  "phonetics": "A phonetic pronunciation or local accent cadence guide",
+  "detectedLanguage": "The name of the detected source language if source was autodetect"
+}`;
+
+      const requestBody = {
+        contents: [
+          {
+            parts: [
+              { text: systemPrompt },
+              { text: `Text to translate:\n${text}` }
+            ]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.15,
+          responseMimeType: "application/json"
+        }
+      };
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (!response.ok) {
+        const errorJson = await response.json().catch(() => ({}));
+        throw new Error(errorJson?.error?.message || `Gemini API error (Status ${response.status})`);
+      }
+
+      const data = await response.json();
+      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!rawText) throw new Error("Empty response from Gemini");
+
+      return JSON.parse(rawText);
+    }
+
+    async function performTranslation() {
+      const text = inputText.value.trim();
+      if (!text) return;
+
+      loadingOverlay.classList.remove('hidden');
+
+      let src = sourceLang.value;
+      let tgt = targetLang.value;
+      const isIntraEnglish = ALL_ENGLISH_VARIETIES.has(src) && ALL_ENGLISH_VARIETIES.has(tgt);
+
+      if (geminiApiKey && geminiApiKey.trim().length > 5) {
+        loadingMessage.textContent = isIntraEnglish ? 'Converting English dialect...' : 'Translating with Gemini AI...';
+        try {
+          const result = await translateWithGemini(text, src, tgt);
+          if (result && result.translation) {
+            translatedTextValue = result.translation;
+            translationOutput.textContent = translatedTextValue;
+            updatePronunciationDisplay(translatedTextValue, tgt, result.phonetics || null);
+
+            detectedLangBadge.textContent = result.detectedLanguage ? `✨ ${result.detectedLanguage}` : '✨ Gemini AI';
+            detectedLangBadge.className = 'text-xs font-semibold px-2.5 py-1 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800 truncate max-w-[150px]';
+            detectedLangBadge.classList.remove('hidden');
+
+            loadingOverlay.classList.add('hidden');
+            return;
+          }
+        } catch (err) {
+          console.warn('Gemini error, using fallback:', err);
+          showToast(`Gemini fallback: using offline/GTX engine`, 'fa-circle-exclamation text-amber-400');
+        }
+      }
+
+      if (isIntraEnglish) {
+        loadingMessage.textContent = 'Adapting English dialect...';
+        const transformed = transformEnglishDialect(text, src, tgt);
+        translatedTextValue = transformed;
+        translationOutput.textContent = translatedTextValue;
+        updatePronunciationDisplay(translatedTextValue, tgt);
+
+        detectedLangBadge.textContent = `Dialect: ${targetLang.options[targetLang.selectedIndex].text.split('(')[1]?.replace(')', '') || 'Adapted'}`;
+        detectedLangBadge.className = 'text-xs font-semibold px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 truncate max-w-[150px]';
+        detectedLangBadge.classList.remove('hidden');
+
+        loadingOverlay.classList.add('hidden');
+        return;
+      }
+
+      loadingMessage.textContent = 'Translating...';
+      try {
+        let querySrc = src;
+        let queryTgt = tgt;
+
+        if (src === 'autodetect') querySrc = 'auto';
+        else if (ALL_ENGLISH_VARIETIES.has(src)) querySrc = 'en';
+        else if (DIALECT_BRIDGES[src]) querySrc = DIALECT_BRIDGES[src].base;
+
+        if (ALL_ENGLISH_VARIETIES.has(tgt)) queryTgt = 'en';
+        else if (DIALECT_BRIDGES[tgt]) queryTgt = DIALECT_BRIDGES[tgt].base;
+
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${querySrc}&tl=${queryTgt}&dt=t&dt=rm&q=${encodeURIComponent(text)}`;
+        const res = await fetch(url);
+        
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data[0]) {
+            let translatedPart = '';
+            let transliterationPart = '';
+            data[0].forEach(p => {
+              if (p[0]) translatedPart += p[0];
+              if (p[2] || p[3]) transliterationPart += (p[2] || p[3] || '');
+            });
+
+            if (translatedPart.trim()) {
+              if (ALL_ENGLISH_VARIETIES.has(tgt)) {
+                translatedPart = transformEnglishDialect(translatedPart, 'en-US', tgt);
+              }
+
+              translatedTextValue = translatedPart;
+              translationOutput.textContent = translatedTextValue;
+              updatePronunciationDisplay(translatedTextValue, tgt, transliterationPart || null);
+
+              if (src === 'autodetect' && data[2]) {
+                const detectedCode = data[2];
+                const opt = Array.from(sourceLang.options).find(o => o.value === detectedCode);
+                detectedLangBadge.textContent = opt ? `Detected: ${opt.text.replace(/^[^\w\s]+/, '').trim()}` : `Detected: ${detectedCode.toUpperCase()}`;
+                detectedLangBadge.className = 'text-xs font-semibold px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 truncate max-w-[150px]';
+                detectedLangBadge.classList.remove('hidden');
+              } else {
+                detectedLangBadge.classList.add('hidden');
+              }
+
+              loadingOverlay.classList.add('hidden');
+              return;
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Standard engine error:', err);
+      }
+
+      translatedTextValue = ALL_ENGLISH_VARIETIES.has(tgt) ? transformEnglishDialect(text, src, tgt) : text;
+      translationOutput.textContent = translatedTextValue;
+      loadingOverlay.classList.add('hidden');
+    }
+
+    /* ----------------------------------------------------
+       GENERAL UI LISTENERS & PRESETS
+    ---------------------------------------------------- */
+    copyBtn.addEventListener('click', () => {
+      if (!translatedTextValue) return;
+      triggerHaptic();
+      navigator.clipboard.writeText(translatedTextValue).then(() => {
+        showToast('Translation copied!');
+      }).catch(() => {
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = translatedTextValue;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextArea);
+        showToast('Translation copied!');
+      });
+    });
+
+    inputText.addEventListener('input', () => {
+      updateInputState();
+      clearTimeout(translationDebounceTimer);
+      if (inputText.value.trim().length > 0) {
+        translationDebounceTimer = setTimeout(performTranslation, 650);
+      }
+    });
+
+    clearInputBtn.addEventListener('click', () => {
+      triggerHaptic();
+      inputText.value = '';
+      updateInputState();
+      inputText.focus();
+    });
+
+    translateBtn.addEventListener('click', () => {
+      triggerHaptic();
+      performTranslation();
+    });
+
+    swapBtn.addEventListener('click', () => {
+      triggerHaptic();
+      if (sourceLang.value === 'autodetect') sourceLang.value = 'en-US';
+      const tempLang = sourceLang.value;
+      sourceLang.value = targetLang.value;
+      targetLang.value = tempLang;
+
+      const tempText = inputText.value;
+      inputText.value = translatedTextValue;
+      translatedTextValue = tempText;
+
+      updateInputState();
+      if (inputText.value.trim().length > 0) performTranslation();
+    });
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      if (savedTheme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        themeIcon.className = 'fa-solid fa-sun text-base';
+        metaThemeColor.setAttribute('content', '#1e293b');
+      } else {
+        document.documentElement.classList.remove('dark');
+        themeIcon.className = 'fa-solid fa-moon text-base';
+        metaThemeColor.setAttribute('content', '#ffffff');
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      triggerHaptic();
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        themeIcon.className = 'fa-solid fa-moon text-base';
+        metaThemeColor.setAttribute('content', '#ffffff');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.className = 'fa-solid fa-sun text-base';
+        metaThemeColor.setAttribute('content', '#1e293b');
+      }
+    });
+
+    const samplePhrases = [
+      { label: "US to British", text: "Where is the elevator and the restroom in this apartment?", from: "en-US", to: "en-GB" },
+      { label: "US to Australian", text: "Good morning friend! Let's have a barbecue this afternoon.", from: "en-US", to: "en-AU" },
+      { label: "US to Philippine", text: "Please call our classmate to turn on the refrigerator in the restroom.", from: "en-US", to: "en-PH" },
+      { label: "US to Jamaican", text: "What is going on my friend? There is no problem here.", from: "en-US", to: "en-JM" },
+      { label: "US to Nigerian", text: "What is happening? Please don't worry, everything is fine.", from: "en-US", to: "pcm" },
+      { label: "US to Singlish", text: "Why are you doing that? This food is so delicious!", from: "en-US", to: "en-SG" },
+      { label: "US to Shakespearean", text: "Do you know where they have gone today?", from: "en-US", to: "en-shk" },
+      { label: "US to Gen Z", text: "I am truly not lying, his charisma is incredible and he is winning.", from: "en-US", to: "en-genz" },
+      { label: "US to Corporate", text: "Can you fix this issue quickly and let me know?", from: "en-US", to: "en-biz" },
+      { label: "Tagalog to Phil-English", text: "Pakisuyo naman po yung resibo at pakitawag si batchmate.", from: "tl", to: "en-PH" }
+    ];
+
+    function initQuickPhrases() {
+      quickPhrasesContainer.innerHTML = '';
+      samplePhrases.forEach(item => {
+        const chip = document.createElement('button');
+        chip.className = 'px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 hover:border-blue-500 text-xs text-slate-700 dark:text-slate-300 transition-colors shadow-2xs font-medium flex items-center space-x-1 shrink-0 active:scale-95 touch-manipulation';
+        chip.innerHTML = `<span class="text-blue-500 font-semibold">${item.label}:</span> <span class="truncate max-w-[180px]">"${item.text}"</span>`;
+        chip.addEventListener('click', () => {
+          triggerHaptic();
+          sourceLang.value = item.from;
+          targetLang.value = item.to;
+          inputText.value = item.text;
+          updateInputState();
+          performTranslation();
+        });
+        quickPhrasesContainer.appendChild(chip);
+      });
+    }
+
+    function updateInputState() {
+      const len = inputText.value.length;
+      charCounter.textContent = `${len} / 5000`;
+      
+      if (len > 0) {
+        clearInputBtn.classList.remove('hidden');
+      } else {
+        clearInputBtn.classList.add('hidden');
+        translatedTextValue = "";
+        pronunciationValue = "";
+        translationOutput.innerHTML = '<span class="text-slate-400 dark:text-slate-500 italic">Translation will appear here...</span>';
+        pronunciationCard.classList.add('hidden');
+        detectedLangBadge.classList.add('hidden');
+      }
+    }
+
+    copyPronunciationBtn.addEventListener('click', () => {
+      if (!pronunciationValue) return;
+      triggerHaptic();
+      navigator.clipboard.writeText(pronunciationValue).then(() => {
+        showToast('Pronunciation guide copied!');
+      });
+    });
+
+    shareBtn.addEventListener('click', async () => {
+      if (!translatedTextValue) {
+        showToast('No translation to share', 'fa-circle-info text-amber-400');
+        return;
+      }
+      triggerHaptic();
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Ai Global Translator Pro',
+            text: `${inputText.value}\n👉 ${translatedTextValue}`,
+          });
+        } catch (err) {}
+      } else {
+        copyBtn.click();
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      checkSecureContext();
+      initTheme();
+      initQuickPhrases();
+      initSpeechRecognition();
+      updateGeminiStatusUI();
+    });
+  </script>
+</body>
+</html>
